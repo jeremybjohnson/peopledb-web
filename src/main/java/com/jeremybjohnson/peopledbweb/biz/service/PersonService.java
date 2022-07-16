@@ -30,8 +30,6 @@ public class PersonService {
     public Person save(Person person, InputStream photoStream) {
         if (photoStream == null) {
             Person savedPerson = personRepository.save(person);
-            person.setPhotoFilename(null);
-            storageRepository.save(person.getPhotoFilename(), photoStream);
             return savedPerson;
         }
 
