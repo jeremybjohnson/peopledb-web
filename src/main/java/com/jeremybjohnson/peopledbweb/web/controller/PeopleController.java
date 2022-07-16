@@ -78,11 +78,17 @@ public class PeopleController {
         log.info("Filename: " + photoFile.getOriginalFilename());
         log.info("File size: " + photoFile.getSize());
         log.info("Errors: " + errors);
+        log.info("Photo File Name: " + photoFile);
         if (!errors.hasErrors()) {
             try {
+                if (photoFile.getOriginalFilename().equals("")) {
+                    personService.save(person, null);
+                    return "redirect:people";
+                }
                 personService.save(person, photoFile.getInputStream());
                 return "redirect:people";
             } catch (StorageException e) {
+                System.out.println(e);
                 model.addAttribute("errorMsg", "System is unable to accept photo files at this time");
                 return "people";
             }

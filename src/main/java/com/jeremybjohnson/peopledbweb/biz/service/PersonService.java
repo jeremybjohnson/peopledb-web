@@ -28,6 +28,13 @@ public class PersonService {
 
     @Transactional
     public Person save(Person person, InputStream photoStream) {
+        if (photoStream == null) {
+            Person savedPerson = personRepository.save(person);
+            person.setPhotoFilename(null);
+            storageRepository.save(person.getPhotoFilename(), photoStream);
+            return savedPerson;
+        }
+
         Person savedPerson = personRepository.save(person);
         storageRepository.save(person.getPhotoFilename(), photoStream);
         return savedPerson;
